@@ -1,0 +1,30 @@
+
+<openerp>
+    <data>
+        <record model="tbrh.motifs_absences" id="motif0">
+            <field name="name">CNP</field>
+            <field name="description">Congé non payée
+            </field>
+        </record>
+
+        <record model="tbrh.motifs_absences" id="motif1">
+            <field name="name">RTT</field>
+              <field name="description">Arret Maladie </field>
+        </record>
+        <record model="tbrh.motifs_absences" id="motif2">
+            <field name="name">AM</field>
+            <field name="description">Arret Maladie </field>
+         </record>
+        <record model="tbrh.motifs_absences" id="motif3">
+            <field name="name">AT</field>
+            <field name="description">Arret de travail </field>
+        </record>
+        <record model="tbrh.motifs_absences" id="motif4">
+            <field name="name">Null</field>
+            <field name="description">motif non connu </field>
+        </record>
+
+    </data>
+</openerp>
+
+

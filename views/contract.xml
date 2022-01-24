@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <!-- Add date field to existing view form employee-->
+          <record model="ir.ui.view" id="hr_contract_form">
+            <field name="name">hr.contract.form</field>
+            <field name="model">hr.contract</field>
+              <field name="type">form</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group" position="inside">
+                   <field name="nbr_employee" String="nbr_employee"/>
+                </xpath>
+            </field>
+        </record>
+         <!-- view grpah  percentage cdd cdi-->
+        <record model="ir.ui.view" id="contract_graph_view">
+            <field name="name">hr.contract.graph</field>
+            <field name="model">hr.contract</field>
+            <field name="arch" type="xml">
+                <graph string="Nombre d'embauches en CDI, en CDD">
+                    <field name="type_id" type="col"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="contract_list_action">
+            <field name="name">contract</field>
+            <field name="res_model">hr.contract</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+
+         <menuitem id="gestion_contrat_menu" name="Gestion des contrats" parent="main_tbrh_menu"/>
+         <menuitem id="contract_menu" name="contrats" parent="gestion_contrat_menu" action="contract_list_action"/>
+
+    </data>
+</openerp>

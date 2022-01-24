@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+         <!-- la view liste de feuilletemps  -->
+        <record model="ir.ui.view" id="feuilletemps_tree_view">
+            <field name="name">feuilletemps.tree</field>
+            <field name="model">tbrh.feuilletemps</field>
+            <field name="arch" type="xml">
+                <tree string="feuilletemps Tree">
+                    <field name="name_emp"/>
+                    <field name="name_dep"/>
+                    <field name="somme_h_absence"/>
+                    <field name="somme_h_supp"/>
+                    <field name="taux_abs"/>
+                    <field name="absence_ids"/>
+                </tree>
+            </field>
+        </record>
+
+         <!-- form view  feuille de temps-->
+        <record model="ir.ui.view" id="feuilletemps_form_view">
+            <field name="name">feuilletemps.form</field>
+            <field name="model">tbrh.feuilletemps</field>
+            <field name="arch" type="xml">
+                <form string="feuilletemps Form">
+                    <header>
+                        <button name="action_draft" type="object" string="draft" states="confirmed,done"
+                                class="oe_highlight"/>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft"
+                                class="oe_highlight"/>
+                        <button name="action_done" type="object" string="Done" states="confirmed"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group string="Personnel">
+                            <field name="name_emp"/>
+                            <field name="name_dep"/>
+                            <field name="somme_h_absence"/>
+                            <field name="somme_h_supp"/>
+                        </group>
+                        <group string="Timesheet">
+                            <field name="absence_ids" widget="one2many_list">
+                              <tree editable="buttom">
+                                        <field name="date" />
+                                        <field name="statut"/>
+                                        <field name="motif" attrs="{'required': [('statut', '=', 'absent')]}"/>
+                                        <field name="h_arrive" attrs="{'required': [('statut', '=', 'present')]}"/>
+                                        <field name="h_sortie" attrs="{'required': [('statut', '=', 'present')]}"/>
+                                        <field name="nbr_h_absence" sum="Total heures absentés"/>
+                                        <field name="nbr_h_supp" sum="Total heures supplémentaire"/>
+                              </tree>
+                            </field>
+                        </group>
+                        <group string="Taux d'absentéisme">
+                            <field name="taux_abs" widget="progressbar"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <!-- view grpah  taux d'absenteisme-->
+        <record model="ir.ui.view" id="feuilletemps_session_graph_view">
+            <field name="name">tbrh.feuilletemps.graph1</field>
+            <field name="model">tbrh.feuilletemps</field>
+            <field name="arch" type="xml">
+                <graph string="Taux d'absentéisme par employé" type="bar" stacked="True">
+                    <field name="name_emp" type="col"/>
+                    <field name="taux_abs" type="measure" operator="+"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- view grpah  somme h absence-->
+        <record model="ir.ui.view" id="feuilletemps_absence_session_graph_viewSum">
+            <field name="name">tbrh.feuilletemps.graph2</field>
+            <field name="model">tbrh.feuilletemps</field>
+            <field name="arch" type="xml">
+                <graph string="somme heures d'absence par employé" type="bar" stacked="True">
+                    <field name="name_emp"/>
+                    <field name="somme_h_absence" type="measure" operator="+"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- view Kanban feuille de temps grouped by name-emp-->
+        <record model="ir.ui.view" id="view_tbrh_feuilletemps_kanban">
+            <field name="name">tbrh.feuilletemps.kanban</field>
+            <field name="model">tbrh.feuilletemps</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="name_emp">
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div
+                                    t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+                                <div class="oe_dropdown_kanban">
+                                    <!-- dropdown menu -->
+                                    <div class="oe_dropdown_toggle">
+                                        <span class="oe_e">#</span>
+                                        <ul class="oe_dropdown_menu">
+                                            <li>
+                                                <a type="delete">Delete</a>
+                                            </li>
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker"
+                                                    data-field="color"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_clear"/>
+                                </div>
+                                <div t-attf-class="oe_kanban_content">
+                                    <!-- title -->
+                                    Departement:
+                                    <field name="name_dep"/>
+                                    <br/>
+                                    Feuille de temps:
+                                    <field name="absence_ids"/>
+                                    <br/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="feuilletemps_list_action">
+            <field name="name">Timesheet</field>
+            <field name="res_model">tbrh.feuilletemps</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph,kanban</field>
+            <!--field name="context" eval="{'feuilletemps_search_view': 1}"/ -->
+        </record>
+
+        <menuitem id="tbrh_menu_configuration" name="Gestion des horaires" parent="main_tbrh_menu"/>
+        <menuitem id="feuilletemps_menu" name="Feuille de temps" parent="tbrh_menu_configuration"
+                  action="feuilletemps_list_action"/>
+
+    </data>
+</openerp>

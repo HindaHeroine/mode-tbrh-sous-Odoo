@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <!-- Add date field to existing view  form department-->
+        <record model="ir.ui.view" id="hr_department_form">
+            <field name="name">department.form</field>
+            <field name="model">hr.department</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_department_filter"/>
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='manager_id']" position="after">
+                            <field name="name" />
+                        </xpath>
+                    </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="department_list_action">
+            <field name="name">Département</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+         <menuitem id="department_menu" name="Départements" parent="tbrh_menu"
+                   action="department_list_action"/>
+    </data>
+</openerp>

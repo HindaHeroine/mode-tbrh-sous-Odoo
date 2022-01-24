@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+    <report
+        id="report_feuilletemps"
+        model="tbrh.feuilletemps"
+        string="feuilletemps Report"
+        name="tbrh.report_feuilletemps_view"
+        file="tbrh.report_feuilletemps"
+        report_type="qweb-pdf"
+        menu="True"/>
+
+     <template id="report_feuilletemps_view">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <h2>Report title</h2>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+        <report
+        id="report_employee"
+        model="hr.employee"
+        string="employee Report"
+        name="tbrh.report_employee_view"
+        file="tbrh.report_employee"
+        report_type="qweb-pdf"
+        menu="True"/>
+
+     <template id="report_employee_view">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <h2>Report title</h2>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+         <report
+        id="report_tab_bord_feuilletemps"
+        model="tbrh.feuilletemps"
+        string="Tableau de bord et reporting feuille du temps Report"
+        name="tbrh.report_feuilletemps_view_dashboard"
+        file="tbrh.report_tab_bord_feuilletemps"
+        report_type="qweb-pdf"
+        menu="True"/>
+
+     <template id="report_feuilletemps_view_dashboard">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <h2>Report title</h2>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+     </data>
+</openerp>
+

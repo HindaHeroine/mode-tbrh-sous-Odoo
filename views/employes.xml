@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <!-- Add date field to existing view form employee-->
+          <record model="ir.ui.view" id="hr_employee_form">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+              <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[2]" position="inside">
+                            <group string="Contrat de travail">
+                                <field name="situation_handicap" String="En situation de handicap"/>
+                            </group>
+                </xpath>
+            </field>
+        </record>
+         <!-- view grpah  gender-->
+        <record model="ir.ui.view" id="employee_gender_graph_view">
+            <field name="name">hr.employee.graph</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <graph string="homme et femme" >
+                    <field name="gender" type="col"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="employes_list_action">
+            <field name="name">Employes</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">tree,form,kanban,graph</field>
+        </record>
+
+         <menuitem id="main_tbrh_menu" name="T.bord et reporting GRH"/>
+         <menuitem id="tbrh_menu" name="Ressources humaines" parent="main_tbrh_menu"/>
+         <menuitem id="contact_menu" name="Employés" parent="tbrh_menu" action="employes_list_action"/>
+
+    </data>
+</openerp>
